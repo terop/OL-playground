@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>OpenLayers playground</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="OpenLayers/theme/default/style.css">
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <script type="text/javascript" src="js/proj4.js"></script>
+	<script type="text/javascript" src="OpenLayers/OpenLayers.debug.js"></script>
+	<script type="text/javascript" src="js/MML.js"></script>
+	<style type="text/css">
+		html, body {
+			width: 95%;
+			height: 95%;
+		}
+  		#map {
+      		width: 90%;
+          	height: 90%;
+          	border: 1px solid #ccc;
+      	}
+      	#croppingTools {
+      		position: relative;
+      		top: 0;
+      		right: 0;
+	  	}
+    </style>
+</head>
+<body>
+	<h2>Welcome to the OpenLayers playground!</h2>
+	<!--<form action="#">
+		<label for="address">Address</label>
+		<input type="text" id="address" name="address">
+		<input type="button" id="searchBtn" value="Search">
+	</form>-->
+	<div id="croppingTools">
+		Cropping tools
+		<input type="button" id="standardRectangle" 
+			value="Standard rectangle">
+		<input type="button" id="rectangle" value="Rectangle">
+		<input type="button" id="polygon" value="Polygon">
+		<input type="button" id="centerLine" 
+			value="Center line (keskiviiva)">
+	</div>
+	<br>
+	<div id="map"></div>
+
+	<script type="text/javascript" src="js/map.js"></script>
+	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#standardRectangle').click(function () {
+				activateDrawing('standard');
+			});
+
+			$('#rectangle').click(function () {
+				activateDrawing('rectangle');
+			});
+
+			$('#polygon').click(function () {
+				activateDrawing('polygon');
+			});
+
+			$('#centerLine').click(function () {
+				activateDrawing('centerLine');
+			});					
+		});
+	</script>
+</body>
+</html>
