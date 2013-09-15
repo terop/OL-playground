@@ -19,11 +19,6 @@
           	height: 90%;
           	border: 1px solid #ccc;
       	}
-      	#croppingTools {
-      		position: relative;
-      		top: 0;
-      		right: 0;
-	  	}
     </style>
 </head>
 <body>
@@ -33,36 +28,27 @@
 		<input type="text" id="address" name="address">
 		<input type="button" id="searchBtn" value="Search">
 	</form>-->
+	<br>
 	<div id="croppingTools">
-		Cropping tools
+		<span style="font-weight: bold;">Cropping tools</span>		
 		<input type="button" id="standardRectangle" 
 			value="Standard rectangle">
 		<input type="button" id="rectangle" value="Rectangle">
 		<input type="button" id="polygon" value="Polygon">
 		<input type="button" id="centerLine" 
-			value="Center line (keskiviiva)">
+			value="Center line">
 	</div>
-	<br>
+	<br>	
 	<div id="map"></div>
 
+	<script type="text/javascript" src="js/javascript.util.js"></script>
+	<script type="text/javascript" src="js/jsts.min.js"></script>
 	<script type="text/javascript" src="js/map.js"></script>
 	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
-			$('#standardRectangle').click(function () {
-				activateDrawing('standard');
-			});
-
-			$('#rectangle').click(function () {
-				activateDrawing('rectangle');
-			});
-
-			$('#polygon').click(function () {
-				activateDrawing('polygon');
-			});
-
-			$('#centerLine').click(function () {
-				activateDrawing('centerLine');
+			$('#croppingTools > input[type="button"]').click(function () {
+				activateDrawing($(this).context.id);
 			});					
 		});
 	</script>

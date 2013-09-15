@@ -64,24 +64,19 @@ var setupDrawing = function () {
 	drawingLayer = new OpenLayers.Layer.Vector('Drawing layer');
 	map.addLayer(drawingLayer);
 
-	var doneHandler = function(type) {
-		if (type !== 'centerLine') {
-			drawingLayer.removeAllFeatures();
-		} else {
-
-		}
+	var addedHandler = function(type) {
 		controls[type].deactivate();
 	};
 
 	controls = {
-		standard: new  OpenLayers.Control.DrawFeature(drawingLayer,
+		standard: new OpenLayers.Control.DrawFeature(drawingLayer,
 			OpenLayers.Handler.RegularPolygon,
 				{
 					handlerOptions: {
 						sides: 4
 					}
 				}),
-		rectangle: new  OpenLayers.Control.DrawFeature(drawingLayer,
+		rectangle: new OpenLayers.Control.DrawFeature(drawingLayer,
 			OpenLayers.Handler.RegularPolygon,
 				{
 					handlerOptions: {
@@ -99,19 +94,34 @@ var setupDrawing = function () {
 			})
 	};
 	// Handlers
+	controls['standard'].events.on({
+		'featureadded': function (event) {
+			addedHandler('standard');
+		}
+	});
 	controls['rectangle'].events.on({
 		'featureadded': function () {
-			doneHandler('rectangle');
+			addedHandler('rectangle');
 		}
 	});
 	controls['polygon'].events.on({
 		'featureadded': function () {
-			doneHandler('polygon');
+			addedHandler('polygon');
 		}
 	});
 	controls['centerLine'].events.on({
-		'featureadded': function () {
-			doneHandler('centerLine');
+		'featureadded': function (event) {
+			var wktReader = new jsts.io.WKTReader(),
+				geom = wktReader.read(event.feature.geometry.toString()),
+				bufferOp = new jsts.operation.buffer.BufferOp(geom);
+			bufferOp.setEndCapStyle(jsts.operation.buffer.BufferParameters.CAP_SQUARE);
+			
+			var bufferGeom = bufferOp.getResultGeometry(20),
+				wktFormat = new OpenLayers.Format.WKT(),
+				bufferVector = wktFormat.read(bufferGeom.toString());
+
+			drawingLayer.addFeatures([bufferVector]);
+			controls['centerLine'].deactivate();
 		}
 	});
 
@@ -123,12 +133,6 @@ setupDrawing();
 
 // Activates drawing
 var activateDrawing = function (type) {
+	drawingLayer.removeAllFeatures();
 	controls[type].activate();
-	/*for(var key in controls) {
-		if (key === type) {
-			controls[key].activate();
-		} else {
-			controls[key].deactivate();
-		}
-	}*/
 };
