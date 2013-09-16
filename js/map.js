@@ -114,7 +114,7 @@ var setupDrawing = function () {
 			var wktReader = new jsts.io.WKTReader(),
 				geom = wktReader.read(event.feature.geometry.toString()),
 				bufferOp = new jsts.operation.buffer.BufferOp(geom);
-			bufferOp.setEndCapStyle(jsts.operation.buffer.BufferParameters.CAP_SQUARE);
+			bufferOp.setEndCapStyle(jsts.operation.buffer.BufferParameters.CAP_FLAT);
 			
 			var bufferGeom = bufferOp.getResultGeometry(20),
 				wktFormat = new OpenLayers.Format.WKT(),
